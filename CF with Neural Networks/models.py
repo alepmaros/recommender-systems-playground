@@ -3,7 +3,7 @@ from keras.models import Model
 from keras.optimizers import Adam
 from keras.layers import Add, Activation, Lambda, BatchNormalization, Concatenate, Dropout, Input, Embedding, Dot, Reshape, Dense, Flatten, Multiply
 
-def EmbeddingDotBias(n_factors=64, learning_rate=0.001, batch_norm=True, use_bias=True, loss="binary_crossentropy"):
+def EmbeddingDotBias(n_users, n_animes, n_factors=64, learning_rate=0.001, batch_norm=True, use_bias=True, loss="binary_crossentropy"):
     n_factors = 64
 
     # Define input layers for users and movies
@@ -36,7 +36,7 @@ def EmbeddingDotBias(n_factors=64, learning_rate=0.001, batch_norm=True, use_bia
     # Output 
     if batch_norm:
         output = BatchNormalization()(output)
-    output = Activation('sigmoid')(add)
+    output = Activation('sigmoid')(output)
 #     output = output * (max_rating-min_rating) + min_rating 
 
     # Define the model
@@ -51,7 +51,7 @@ def EmbeddingDotBias(n_factors=64, learning_rate=0.001, batch_norm=True, use_bia
         "loss": loss,
         "n_factors": n_factors,
         "batch_norm": batch_norm,
-        "use_biad": use_bias
+        "use_bias": use_bias
     }
     
     return model, model_config
